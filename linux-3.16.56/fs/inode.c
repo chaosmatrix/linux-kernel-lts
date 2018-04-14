@@ -1458,6 +1458,9 @@ sector_t bmap(struct inode *inode, sector_t block)
 }
 EXPORT_SYMBOL(bmap);
 
+// Annoate:
+//  * atime update policy
+//  * fs has it's own attr to control atime update policy
 /*
  * With relative atime, only update atime if the previous atime is
  * earlier than either the ctime or mtime or if at least a day has
@@ -1527,6 +1530,7 @@ void touch_atime(const struct path *path)
 	struct inode *inode = path->dentry->d_inode;
 	struct timespec now;
 
+    // * "noatime" flag set
 	if (inode->i_flags & S_NOATIME)
 		return;
 	if (IS_NOATIME(inode))
